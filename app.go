@@ -60,6 +60,10 @@ type Payload struct {
 	URL string `json:"url,omitempty"`
 }
 
+func HomeEndpoint(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Hello from mlabouardy :)")
+}
+
 func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
 	challenge := r.URL.Query().Get("hub.challenge")
 	mode := r.URL.Query().Get("hub.mode")
@@ -124,6 +128,7 @@ func MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := mux.NewRouter()
+	r.HandleFunc("/", HomeEndpoint)
 	r.HandleFunc("/webhook", VerificationEndpoint).Methods("GET")
 	r.HandleFunc("/webhook", MessagesEndpoint).Methods("POST")
 	if err := http.ListenAndServe("0.0.0.0:8080", r); err != nil {
