@@ -79,6 +79,7 @@ func VerificationEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func ProcessMessage(event Messaging) {
+	log.Printf("userid = %s", event.Sender.ID)
 	client := &http.Client{}
 	response := Response{
 		Recipient: User{
